@@ -1,4 +1,6 @@
 const path = require("path");
+require("dotenv").config();
+
 const express = require("express");
 const MongoClient = require("mongodb").MongoClient;
 
@@ -8,10 +10,9 @@ app.use(express.json());
 
 const connectDB = async (operations, res) => {
   try {
-    const client = await MongoClient.connect(
-      "mongodb+srv://mike:p8S5KejlJzyGWCZ9@cluster0.upj3ibr.mongodb.net/?retryWrites=true&w=majority",
-      { useNewUrlParser: true }
-    );
+    const client = await MongoClient.connect(process.env.DB_URL, {
+      useNewUrlParser: true,
+    });
     const db = client.db("react-blog");
     await operations(db);
     client.close();
